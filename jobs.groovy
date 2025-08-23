@@ -21,7 +21,7 @@ pipelineJob('flask_docker_build') {
                         }
                         stage('Push to DockerHub') {
                             steps {
-                                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                     sh 'echo \$PASS | docker login -u \$USER --password-stdin'
                                     sh 'docker push your_dockerhub/flask-app:latest'
                                 }
@@ -45,17 +45,14 @@ pipelineJob('nginx_proxy_build') {
                     stages {
                         stage('Prepare Dockerfile') {
                             steps {
-                                writeFile file: 'Dockerfile', text: '''
-                                FROM nginx:alpine
-                                RUN echo "
-                                server {
-                                    listen 80;
-                                    location / {
-                                        proxy_pass http://flask-app:5000;
-                                        proxy_set_header X-Forwarded-For \\\$remote_addr;
-                                    }
-                                }" > /etc/nginx/conf.d/default.conf
-                                '''
+                                writeFile file: 'Dockerfile', text: '''FROM nginx:alpine
+RUN echo 'server { \\
+    listen 80; \\
+    location / { \\
+        proxy_pass http://flask-app:5000; \\
+        proxy_set_header X-Forwarded-For $remote_addr; \\
+    } \\
+}' > /etc/nginx/conf.d/default.conf'''
                             }
                         }
                         stage('Build Docker Image') {
@@ -65,7 +62,7 @@ pipelineJob('nginx_proxy_build') {
                         }
                         stage('Push to DockerHub') {
                             steps {
-                                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                     sh 'echo \$PASS | docker login -u \$USER --password-stdin'
                                     sh 'docker push your_dockerhub/nginx-proxy:latest'
                                 }
