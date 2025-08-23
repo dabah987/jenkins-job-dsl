@@ -16,14 +16,14 @@ pipelineJob('flask_docker_build') {
                         }
                         stage('Build Docker Image') {
                             steps {
-                                sh 'docker build -t your_dockerhub/flask-app:latest .'
+                                sh 'docker build -t macen9/flask-app:latest .'
                             }
                         }
                         stage('Push to DockerHub') {
                             steps {
                                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                     sh 'echo \$PASS | docker login -u \$USER --password-stdin'
-                                    sh 'docker push your_dockerhub/flask-app:latest'
+                                    sh 'docker push macen9/flask-app:latest'
                                 }
                             }
                         }
@@ -58,14 +58,14 @@ COPY default.conf /etc/nginx/conf.d/default.conf'''
                         }
                         stage('Build Docker Image') {
                             steps {
-                                sh 'docker build -t your_dockerhub/nginx-proxy:latest .'
+                                sh 'docker build -t macen9/nginx-proxy:latest .'
                             }
                         }
                         stage('Push to DockerHub') {
                             steps {
                                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                     sh 'echo \$PASS | docker login -u \$USER --password-stdin'
-                                    sh 'docker push your_dockerhub/nginx-proxy:latest'
+                                    sh 'docker push macen9/nginx-proxy:latest'
                                 }
                             }
                         }
@@ -88,8 +88,8 @@ pipelineJob('deploy_and_test') {
                         stage('Run Containers') {
                             steps {
                                 sh 'docker network create testnet || true'
-                                sh 'docker run -d --rm --name flask-app --network testnet your_dockerhub/flask-app:latest'
-                                sh 'docker run -d --rm -p 8080:80 --name nginx-proxy --network testnet your_dockerhub/nginx-proxy:latest'
+                                sh 'docker run -d --rm --name flask-app --network testnet macen9/flask-app:latest'
+                                sh 'docker run -d --rm -p 8080:80 --name nginx-proxy --network testnet macen9/nginx-proxy:latest'
                             }
                         }
                         stage('Test Request') {
