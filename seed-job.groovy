@@ -2,7 +2,7 @@ job('seed-job') {
     description('Seed job that loads jobs.groovy to generate pipeline jobs')
 
     scm {
-        git('https://github.com/dabah987/jenkins-job-dsl.git', 'main')
+        git('https://github.com/dabah987/jenkins-job-dsl.git', '*/main')
         
     }
 
