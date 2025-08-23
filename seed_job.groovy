@@ -18,10 +18,6 @@ job('seed_job') {
         }
     }
 
-    wrappers {
-        preBuildCleanup()
-    }
-
     steps {
         dsl {
             external('jobs.groovy')
