@@ -4,7 +4,7 @@ job('seed-job') {
     scm {
         git {
             remote {
-                url('https://github.com/YOUR_USER/YOUR_JOBS_REPO.git')
+                url('https://github.com/dabah987/jenkins-job-dsl.git')
             }
             branch('main')
         }
