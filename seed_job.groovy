@@ -2,16 +2,31 @@ job('seed_job') {
     description('Seed job that loads jobs.groovy to generate pipeline jobs')
 
     scm {
-        git('https://github.com/dabah987/jenkins-job-dsl.git', '*/main')
-        
+        git {
+            remote {
+                url('https://github.com/dabah987/jenkins-job-dsl.git')
+            }
+            branch('*/main')
+            extensions {
+                cloneOptions {
+                    shallow(true)
+                    noTags(true)
+                    reference('')
+                    timeout(10)
+                }
+            }
+        }
+    }
+
+    wrappers {
+        preBuildCleanup()
     }
 
     steps {
         dsl {
-            // points to jobs.groovy inside your repo
             external('jobs.groovy')
-            removeAction('DELETE')  // remove old jobs not in DSL
-            ignoreExisting(false)   // overwrite existing jobs
+            removeAction('DELETE')
+            ignoreExisting(false)
         }
     }
 }
