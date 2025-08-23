@@ -122,13 +122,7 @@ pipelineJob('deploy_and_test') {
                             }
                         }
                     }
-                    post {
-                        always {
-                            sh 'docker stop flask-app || true'
-                            sh 'docker stop nginx-proxy || true'
-                            sh 'docker network rm testnet || true'
-                        }
-                    }
+           
                 }
             """.stripIndent())
             sandbox()
