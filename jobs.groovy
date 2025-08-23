@@ -24,7 +24,7 @@ def containers():
     result = "Running Containers:<br>"
     for c in containers:
         result += f"{c.name} - {c.image.tags[0] if c.image.tags else 'no-tag'}<br>"
-    return result.replace('\\n', '<br>')
+    return result
 
 app.run(host='0.0.0.0', port=5000)
 '''
@@ -39,14 +39,14 @@ CMD python app.py'''
                         }
                         stage('Build Docker Image') {
                             steps {
-                                sh 'docker build -t macen9/flask-app:latest .'
+                                sh 'docker build -t your_dockerhub/flask-app:latest .'
                             }
                         }
                         stage('Push to DockerHub') {
                             steps {
                                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                     sh 'echo \$PASS | docker login -u \$USER --password-stdin'
-                                    sh 'docker push macen9/flask-app:latest'
+                                    sh 'docker push your_dockerhub/flask-app:latest'
                                 }
                             }
                         }
@@ -81,14 +81,14 @@ COPY default.conf /etc/nginx/conf.d/default.conf'''
                         }
                         stage('Build Docker Image') {
                             steps {
-                                sh 'docker build -t macen9/nginx-proxy:latest .'
+                                sh 'docker build -t your_dockerhub/nginx-proxy:latest .'
                             }
                         }
                         stage('Push to DockerHub') {
                             steps {
                                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                     sh 'echo \$PASS | docker login -u \$USER --password-stdin'
-                                    sh 'docker push macen9/nginx-proxy:latest'
+                                    sh 'docker push your_dockerhub/nginx-proxy:latest'
                                 }
                             }
                         }
