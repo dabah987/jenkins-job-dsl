@@ -28,7 +28,8 @@ def containers():
 
 app.run(host='0.0.0.0', port=5000)
 '''
-                                writeFile file: 'requirements.txt', text: 'flask\\ndocker'
+                                writeFile file: 'requirements.txt', text: '''flask
+docker'''
                                 writeFile file: 'Dockerfile', text: '''FROM python:3.9-slim
 COPY . /app
 WORKDIR /app
