@@ -1,4 +1,4 @@
-job('seed-job') {
+job('seed_job') {
     description('Seed job that loads jobs.groovy to generate pipeline jobs')
 
     scm {
