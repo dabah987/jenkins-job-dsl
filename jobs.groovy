@@ -111,13 +111,13 @@ pipelineJob('deploy_and_test') {
                             steps {
                                 sh 'docker network create testnet || true'
                                 sh 'docker run -d --rm --name flask-app --network testnet -v /var/run/docker.sock:/var/run/docker.sock macen9/flask-app:latest'
-                                sh 'docker run -d --rm -p 8080:80 --name nginx-proxy --network testnet macen9/nginx-proxy:latest'
+                                sh 'docker run -d --rm -p 8082:80 --name nginx-proxy --network testnet macen9/nginx-proxy:latest'
                             }
                         }
                         stage('Test Request') {
                             steps {
                                 sh 'sleep 5'  // give containers time to start
-                                sh 'curl -v http://localhost:8080'
+                                sh 'curl -v http://localhost:8082'
                             }
                         }
                     }
