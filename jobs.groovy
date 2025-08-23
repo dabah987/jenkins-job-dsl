@@ -1,7 +1,7 @@
 // jobs.groovy
 // Jenkins Job DSL script to create 3 pipeline jobs
 
-pipelineJob('flask-docker_build') {
+pipelineJob('flask_docker_build') {
     description('Build Flask app Docker image and push to DockerHub')
     definition {
         cps {
@@ -35,7 +35,7 @@ pipelineJob('flask-docker_build') {
     }
 }
 
-pipelineJob('nginx-proxy_build') {
+pipelineJob('nginx_proxy_build') {
     description('Build Nginx reverse proxy image with header injection and push to DockerHub')
     definition {
         cps {
@@ -79,7 +79,7 @@ pipelineJob('nginx-proxy_build') {
     }
 }
 
-pipelineJob('deploy-and_test') {
+pipelineJob('deploy_and_test') {
     description('Run Flask + Nginx containers locally, test request, then clean up')
     definition {
         cps {
