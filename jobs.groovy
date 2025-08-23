@@ -45,14 +45,15 @@ pipelineJob('nginx_proxy_build') {
                     stages {
                         stage('Prepare Dockerfile') {
                             steps {
+                                writeFile file: 'default.conf', text: '''server {
+    listen 80;
+    location / {
+        proxy_pass http://flask-app:5000;
+        proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}'''
                                 writeFile file: 'Dockerfile', text: '''FROM nginx:alpine
-RUN echo 'server { \\
-    listen 80; \\
-    location / { \\
-        proxy_pass http://flask-app:5000; \\
-        proxy_set_header X-Forwarded-For $remote_addr; \\
-    } \\
-}' > /etc/nginx/conf.d/default.conf'''
+COPY default.conf /etc/nginx/conf.d/default.conf'''
                             }
                         }
                         stage('Build Docker Image') {
