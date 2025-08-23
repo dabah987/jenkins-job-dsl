@@ -21,9 +21,9 @@ app = flask.Flask(__name__)
 def containers():
     client = docker.from_env()
     containers = client.containers.list()
-    result = "Running Containers:\\n"
+    result = "Running Containers:<br>"
     for c in containers:
-        result += f"{c.name} - {c.image.tags[0] if c.image.tags else 'no-tag'}\\n"
+        result += f"{c.name} - {c.image.tags[0] if c.image.tags else 'no-tag'}<br>"
     return result.replace('\\n', '<br>')
 
 app.run(host='0.0.0.0', port=5000)
