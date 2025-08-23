@@ -6,7 +6,7 @@ job('seed-job') {
             remote {
                 url('https://github.com/dabah987/jenkins-job-dsl.git')
             }
-            branch('main')
+            branch('*/main')
         }
     }
 
