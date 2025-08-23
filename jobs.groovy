@@ -49,7 +49,7 @@ pipelineJob('nginx_proxy_build') {
     listen 80;
     location / {
         proxy_pass http://flask-app:5000;
-        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-For \\remote_addr;
     }
 }'''
                                 writeFile file: 'Dockerfile', text: '''FROM nginx:alpine
